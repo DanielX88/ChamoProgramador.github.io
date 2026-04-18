@@ -2,183 +2,82 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Adopta un Amigo | Encuentra tu mascota ideal</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <!-- Favicon opcional -->
-    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/48/paw.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdoptMe · El Zoológico del Caos</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #fefaf5; color: #2c2b2b; line-height: 1.5; scroll-behavior: smooth; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        header { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 10; padding: 1rem 0; }
+        nav { display: flex; align-items: center; justify-content: space-between; }
+        .logo-text { font-size: 2rem; font-weight: 800; color: #2c6e49; }
+        .hero { background: linear-gradient(100deg, #fbe9d2 0%, #f8d5b0 100%); text-align: center; padding: 4rem 1.5rem; }
+        .grid-mascotas { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; margin: 3rem 0; }
+        .mascota-card { background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.06); transition: 0.2s; display: flex; flex-direction: column; }
+        .mascota-card:hover { transform: translateY(-6px); }
+        .mascota-card img { width: 100%; height: 250px; object-fit: cover; background: #eee; }
+        .card-info { padding: 1.5rem; flex-grow: 1; }
+        .card-info h3 { font-size: 1.6rem; margin-bottom: 0.3rem; color: #e07c3c; }
+        .edad { color: #6b6b6b; font-weight: bold; margin-bottom: 0.8rem; font-size: 0.9rem; }
+        .descripcion { margin-bottom: 1.2rem; font-style: italic; color: #3d3d3d; font-size: 0.95rem; }
+        .btn-adoptar { background: #2c6e49; color: white; border: none; padding: 0.8rem; border-radius: 40px; font-weight: bold; cursor: pointer; width: 100%; text-decoration: none; display: block; text-align: center; }
+        footer { background: #1e2e24; color: white; text-align: center; padding: 3rem 0; margin-top: 4rem; }
+    </style>
 </head>
 <body>
-    <!-- Header con navegación -->
+
     <header>
-        <nav>
-            <div class="logo">
-    <h1 class="logo-text">
-        Adopt<span class="tail-letter">M</span><span class="tail-letter e-with-tail">e</span>
-    </h1>
-</div>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#mascotas">Mascotas</a></li>
-                <li><a href="#como-adoptar">Cómo adoptar</a></li>
-                <li><a href="#contacto">Contacto</a></li>
-            </ul>
-        </nav>
+        <div class="container">
+            <nav>
+                <div class="logo-text">AdoptMe 👹</div>
+            </nav>
+        </div>
     </header>
 
-    <main>
-        <!-- Sección Hero -->
-        <section id="inicio" class="hero">
-            <div class="hero-content">
-                <h2>Ellos solo esperan un hogar ❤️</h2>
-                <p>Adoptar no es comprar, es salvar una vida. Dale una segunda oportunidad a un animal que te dará amor incondicional.</p>
-                <a href="#mascotas" class="btn btn-primary">Conoce a nuestros peludos</a>
-            </div>
-        </section>
+    <section class="hero">
+        <div class="container">
+            <h2>¿Te atreves a darles un hogar?</h2>
+            <p>Adoptar es salvar una vida... o aceptar que tu sofá será destruido.</p>
+        </div>
+    </section>
 
-        <!-- Sección de mascotas -->
-        <section id="mascotas" class="mascotas">
-            <h2>🐕 🐱 Mascotas en adopción</h2>
-            <div class="filtros">
-                <button class="filtro-btn active" data-tipo="todos">Todos</button>
-                <button class="filtro-btn" data-tipo="perro">Perros 🐕</button>
-                <button class="filtro-btn" data-tipo="gato">Gatos 🐱</button>
-            </div>
-            <div class="grid-mascotas" id="grid-mascotas">
-                <!-- Las mascotas se cargarán con JavaScript -->
-                <div class="loading">Cargando mascotas...</div>
-            </div>
-        </section>
+    <div class="container">
+        <div class="grid-mascotas" id="grid"></div>
+    </div>
 
-        <!-- Sección de pasos para adoptar -->
-        <section id="como-adoptar" class="como-adoptar">
-            <h2>📝 ¿Cómo adoptar?</h2>
-            <div class="pasos-container">
-                <div class="paso">
-                    <div class="paso-icon">1️⃣</div>
-                    <h3>Elige tu compañero</h3>
-                    <p>Conoce a nuestras mascotas disponibles y elige la que más conecte contigo</p>
-                </div>
-                <div class="paso">
-                    <div class="paso-icon">2️⃣</div>
-                    <h3>Completa el formulario</h3>
-                    <p>Llena la solicitud de adopción con tus datos personales</p>
-                </div>
-                <div class="paso">
-                    <div class="paso-icon">3️⃣</div>
-                    <h3>Entrevista y visita</h3>
-                    <p>Te contactaremos para conocerte mejor y visitar al animal</p>
-                </div>
-                <div class="paso">
-                    <div class="paso-icon">4️⃣</div>
-                    <h3>¡Lleva tu nuevo amigo a casa!</h3>
-                    <p>Firma el compromiso de adopción y disfruta de su amor incondicional</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sección de requisitos -->
-        <section class="requisitos">
-            <h2>✅ Requisitos para adoptar</h2>
-            <div class="requisitos-grid">
-                <div class="requisito">
-                    <span>🏠</span>
-                    <p>Tener espacio adecuado para la mascota</p>
-                </div>
-                <div class="requisito">
-                    <span>💰</span>
-                    <p>Contar con los recursos para alimentación y cuidados veterinarios</p>
-                </div>
-                <div class="requisito">
-                    <span>⏰</span>
-                    <p>Tiempo disponible para dedicarle</p>
-                </div>
-                <div class="requisito">
-                    <span>❤️</span>
-                    <p>Compromiso de por vida</p>
-                </div>
-                <div class="requisito">
-                    <span>📋</span>
-                    <p>Ser mayor de edad</p>
-                </div>
-                <div class="requisito">
-                    <span>🏡</span>
-                    <p>Vivienda estable (propia o con permiso)</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sección de contacto / formulario -->
-        <section id="contacto" class="contacto">
-            <h2>📋 Solicita más información</h2>
-            <p class="contacto-desc">Completa el formulario y nos pondremos en contacto contigo para iniciar el proceso de adopción</p>
-            <form id="form-adopcion">
-                <div class="form-group">
-                    <label for="nombre">Nombre completo *</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">Correo electrónico *</label>
-                    <input type="email" id="email" name="email" placeholder="tu@email.com" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="telefono">Teléfono / WhatsApp</label>
-                    <input type="tel" id="telefono" name="telefono" placeholder="+56 9 1234 5678">
-                </div>
-                
-                <div class="form-group">
-                    <label for="mascota">Mascota que te interesa *</label>
-                    <select id="mascota" name="mascota" required>
-                        <option value="">Selecciona una mascota</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="motivo">¿Por qué quieres adoptar? *</label>
-                    <textarea id="motivo" name="motivo" placeholder="Cuéntanos por qué quieres adoptar y qué tipo de hogar le ofrecerías..." rows="4" required></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="experiencia">¿Has tenido mascotas antes?</label>
-                    <select id="experiencia" name="experiencia">
-                        <option value="">Selecciona una opción</option>
-                        <option value="si">Sí, actualmente tengo</option>
-                        <option value="tuve">Sí, tuve anteriormente</option>
-                        <option value="no">No, sería mi primera mascota</option>
-                    </select>
-                </div>
-                
-                <button type="submit" class="btn btn-primary btn-large">Enviar solicitud de adopción 🐾</button>
-            </form>
-            <div id="form-mensaje" class="form-mensaje"></div>
-        </section>
-    </main>
-
-    <!-- Footer -->
     <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>🐾 Adopta un Amigo</h3>
-                <p>Un hogar para cada peludo</p>
-            </div>
-            <div class="footer-section">
-                <h4>Contacto</h4>
-                <p>📧 adopta@amigo.com</p>
-                <p>📞 +56 9 1234 5678</p>
-            </div>
-            <div class="footer-section">
-                <h4>Síguenos</h4>
-                <p>📷 Instagram | 👍 Facebook</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2024 Adopta un Amigo - Todos los derechos reservados</p>
-            <p>🐕 Adopta, no compres</p>
-        </div>
+        <p>© 2026 AdoptMe Inc. - No aceptamos devoluciones ni exorcismos.</p>
     </footer>
 
-    <script src="js/script.js"></script>
+    <script>
+        // Los datos están aquí, las imágenes se cargarán si los archivos están en la misma carpeta que el index.html
+        const datos = [
+            { nombre: "El Sonrisas", edad: "Eterno", tipo: "Perro", desc: "Te mira fijamente mientras duermes. Sabe dónde guardas las llaves.", img: "0c9d09496278bbaaabc796c4d6897c8c.jpg" },
+            { nombre: "Karen", edad: "9 años de odio", tipo: "Gato", desc: "Su mirada juzga tus bajos ingresos y tus decisiones de vida.", img: "images (1).jfif" },
+            { nombre: "Snoopy Criollo", edad: "4 años", tipo: "Perro", desc: "Vive en el techo. Cree que es un piloto de guerra. Ignora sus gritos.", img: "51eWnHaSk1L._AC_SY300_SX300_QL70_FMwebp_.webp" },
+            { nombre: "Milanesa", edad: "8 meses", tipo: "Perro", desc: "Es una cortadora de césped biológica. Ha devorado tres controles de PS3.", img: "como-se-origino-el-meme-del-perrito-v0-di6gy0at4wg61.webp" },
+            { nombre: "Dux", edad: "2 años", tipo: "Perro", desc: "Sabe que no has estudiado para el examen de mañana. Te desprecia.", img: "6d4f880d13271ae6705872aa956b15d0.jpg" },
+            { nombre: "Sr. Mantequilla", edad: "1.5 años", tipo: "Gato", desc: "Manipulador profesional. Es el cerebro detrás de una red de contrabando.", img: "El-Gato-meme-6.jpg" },
+            { nombre: "Brutus", edad: "5 años", tipo: "Perro", desc: "Cobra peaje por pasar a la cocina. Solo acepta carne de primera.", img: "608cb359dec14f358c9138b7625e2c2a.jpg" },
+            { nombre: "Chilaquil", edad: "10 meses", tipo: "Perro", desc: "Ansiedad pura. Tiembla si estornudas. Tiembla si respiras.", img: "634084e6e7085.jpeg" },
+            { nombre: "Venganza", edad: "2 años", tipo: "Perro", desc: "Vio el inicio y el fin del tiempo. No le impresionó tu cara.", img: "b826fdfc42eff440ecf7983b05b0aac2.jpg" },
+            { nombre: "El Toses", edad: "Viral", tipo: "Gato", desc: "Su tos suena como un motor de Canaima vieja. Necesita aceite.", img: "dd46b493df33-gato-tosiendo-z.jpg" }
+        ];
+
+        const grid = document.getElementById('grid');
+        datos.forEach(m => {
+            grid.innerHTML += `
+                <div class="mascota-card">
+                    <img src="${m.img}" alt="${m.nombre}" onerror="this.src='https://via.placeholder.com/250?text=Error+al+Cargar'">
+                    <div class="card-info">
+                        <h3>${m.nombre}</h3>
+                        <div class="edad">${m.tipo} • ${m.edad}</div>
+                        <p class="descripcion">"${m.desc}"</p>
+                        <a href="#" class="btn-adoptar">Sellar mi destino</a>
+                    </div>
+                </div>
+            `;
+        });
+    </script>
 </body>
 </html>

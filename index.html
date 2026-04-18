@@ -3,182 +3,640 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Adopta un Amigo | Encuentra tu mascota ideal</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <!-- Favicon opcional -->
+    <title>Adopta un Amigo · Encuentra tu mascota ideal (o no)</title>
     <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/48/paw.png">
+    <style>
+        /* === RESET NATURAL & VARIABLES === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: #fefaf5;
+            color: #2c2b2b;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        /* === UTILIDADES === */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #e07c3c;
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 4px 8px rgba(224, 124, 60, 0.2);
+        }
+
+        .btn:hover {
+            background: #c0682e;
+        }
+
+        .btn-primary {
+            background: #2c6e49;
+            box-shadow: 0 4px 8px rgba(44, 110, 73, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: #1f5236;
+        }
+
+        .btn-large {
+            padding: 1rem 2.2rem;
+            font-size: 1.2rem;
+        }
+
+        section {
+            padding: 4rem 0;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #2c2b2b;
+            position: relative;
+        }
+
+        h2::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: #e07c3c;
+            margin: 0.8rem auto 0;
+            border-radius: 4px;
+        }
+
+        /* === HEADER & NAV === */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.8rem 1.5rem;
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #2c6e49;
+        }
+
+        .tail-letter {
+            display: inline-block;
+            position: relative;
+        }
+
+        .e-with-tail::after {
+            content: "~";
+            position: absolute;
+            right: -12px;
+            top: 2px;
+            font-size: 1.8rem;
+            transform: rotate(20deg);
+            color: #e07c3c;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #2c2b2b;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #e07c3c;
+        }
+
+        /* === HERO === */
+        .hero {
+            background: linear-gradient(100deg, #fbe9d2 0%, #f8d5b0 100%);
+            text-align: center;
+            padding: 5rem 1.5rem;
+        }
+
+        .hero-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .hero h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero h2::after {
+            display: none;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+        }
+
+        /* === FILTROS Y GRID DE MASCOTAS === */
+        .filtros {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filtro-btn {
+            background: white;
+            border: 2px solid #e0d6cc;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filtro-btn.active {
+            background: #2c6e49;
+            border-color: #2c6e49;
+            color: white;
+        }
+
+        .grid-mascotas {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .mascota-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mascota-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .mascota-card img {
+            width: 100%;
+            height: 250px; /* Un poco más alto para estas joyas */
+            object-fit: cover;
+            background: #f0e3d5;
+        }
+
+        .card-info {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-info h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .card-info .edad {
+            color: #6b6b6b;
+            margin-bottom: 0.8rem;
+            font-weight: bold;
+        }
+
+        .card-info .descripcion {
+            margin-bottom: 1.2rem;
+            color: #3d3d3d;
+            font-style: italic;
+            flex-grow: 1;
+        }
+
+        .btn-adoptar {
+            background: #e07c3c;
+            border: none;
+            color: white;
+            padding: 0.8rem 1rem;
+            border-radius: 40px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        /* === PASOS Y REQUISITOS === */
+        .pasos-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .paso {
+            background: white;
+            padding: 2rem 1.5rem;
+            border-radius: 30px;
+            flex: 1 1 250px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+
+        .paso-icon {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .requisitos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .requisito {
+            background: white;
+            padding: 1.5rem 1rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.03);
+        }
+
+        .requisito span {
+            font-size: 2.2rem;
+            display: block;
+            margin-bottom: 0.8rem;
+        }
+
+        /* === FORMULARIO DE CONTACTO === */
+        .contacto-desc {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+        }
+
+        #form-adopcion {
+            max-width: 650px;
+            margin: 0 auto;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e9dfd6;
+            border-radius: 20px;
+            font-size: 1rem;
+            transition: border 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #e07c3c;
+            outline: none;
+        }
+
+        .form-mensaje {
+            margin-top: 1.8rem;
+            text-align: center;
+            font-weight: 500;
+            padding: 1rem;
+            border-radius: 15px;
+        }
+
+        /* === FOOTER === */
+        footer {
+            background: #1e2e24;
+            color: #f0e3d5;
+            padding: 3rem 0 1rem;
+            margin-top: 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .footer-section h3, .footer-section h4 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #405a46;
+            font-size: 0.9rem;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 640px) {
+            nav {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+                font-size: 0.9rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            .hero h2 {
+                font-size: 2rem;
+            }
+            #form-adopcion {
+                padding: 1.5rem;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 3rem;
+            color: #6b6b6b;
+            font-size: 1.2rem;
+            background: white;
+            border-radius: 20px;
+        }
+    </style>
 </head>
 <body>
-    <!-- Header con navegación -->
     <header>
         <nav>
             <div class="logo">
-    <h1 class="logo-text">
-        Adopt<span class="tail-letter">M</span><span class="tail-letter e-with-tail">e</span>
-    </h1>
-</div>
-            <ul class="nav-links" id="navLinks">
+                <span class="logo-text">
+                    Adopt<span class="tail-letter">M</span><span class="tail-letter e-with-tail">e</span>
+                </span>
+            </div>
+            <ul class="nav-links">
                 <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#mascotas">Mascotas</a></li>
-                <li><a href="#como-adoptar">Cómo adoptar</a></li>
-                <li><a href="#contacto">Contacto</a></li>
+                <li><a href="#mascotas">El Zoológico</a></li>
+                <li><a href="#como-adoptar">Sobrevivir al Proceso</a></li>
+                <li><a href="#contacto">Arrepentirse</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <!-- Sección Hero -->
         <section id="inicio" class="hero">
             <div class="hero-content">
-                <h2>Ellos solo esperan un hogar ❤️</h2>
-                <p>Adoptar no es comprar, es salvar una vida. Dale una segunda oportunidad a un animal que te dará amor incondicional.</p>
-                <a href="#mascotas" class="btn btn-primary">Conoce a nuestros peludos</a>
+                <h2>¿Te atreves a darles un hogar? 💀</h2>
+                <p>Adoptar es salvar una vida... o complicar la tuya. Conoce a nuestros inquilinos más "especiales". El amor incondicional está sobrevalorado.</p>
+                <a href="#mascotas" class="btn btn-primary btn-large">Ver los especímenes</a>
             </div>
         </section>
 
-        <!-- Sección de mascotas -->
-        <section id="mascotas" class="mascotas">
-            <h2>🐕 🐱 Mascotas en adopción</h2>
+        <section id="mascotas" class="mascotas container">
+            <h2>👹 Criaturas buscando... algo</h2>
             <div class="filtros">
-                <button class="filtro-btn active" data-tipo="todos">Todos</button>
-                <button class="filtro-btn" data-tipo="perro">Perros 🐕</button>
-                <button class="filtro-btn" data-tipo="gato">Gatos 🐱</button>
+                <button class="filtro-btn active" data-tipo="todos">Ver Caos Total</button>
+                <button class="filtro-btn" data-tipo="perro">Caos Perruno 🐕</button>
+                <button class="filtro-btn" data-tipo="gato">Caos Gatuno 🐱</button>
             </div>
             <div class="grid-mascotas" id="grid-mascotas">
-                <!-- Las mascotas se cargarán con JavaScript -->
-                <div class="loading">Cargando mascotas...</div>
+                <div class="loading">Invocando a las criaturas...</div>
             </div>
         </section>
 
-        <!-- Sección de pasos para adoptar -->
-        <section id="como-adoptar" class="como-adoptar">
-            <h2>📝 ¿Cómo adoptar?</h2>
+        <section id="como-adoptar" class="como-adoptar container">
+            <h2>📋 Tu Guía de Supervivencia</h2>
             <div class="pasos-container">
-                <div class="paso">
-                    <div class="paso-icon">1️⃣</div>
-                    <h3>Elige tu compañero</h3>
-                    <p>Conoce a nuestras mascotas disponibles y elige la que más conecte contigo</p>
-                </div>
-                <div class="paso">
-                    <div class="paso-icon">2️⃣</div>
-                    <h3>Completa el formulario</h3>
-                    <p>Llena la solicitud de adopción con tus datos personales</p>
-                </div>
-                <div class="paso">
-                    <div class="paso-icon">3️⃣</div>
-                    <h3>Entrevista y visita</h3>
-                    <p>Te contactaremos para conocerte mejor y visitar al animal</p>
-                </div>
-                <div class="paso">
-                    <div class="paso-icon">4️⃣</div>
-                    <h3>¡Lleva tu nuevo amigo a casa!</h3>
-                    <p>Firma el compromiso de adopción y disfruta de su amor incondicional</p>
-                </div>
+                <div class="paso"><div class="paso-icon">1️⃣</div><h3>Elige tu veneno</h3><p>Mira las fotos y decide qué nivel de arrepentimiento quieres en tu vida.</p></div>
+                <div class="paso"><div class="paso-icon">2️⃣</div><h3>Firma tu sentencia</h3><p>Llena el formulario. Es legalmente vinculante, no hay devoluciones.</p></div>
+                <div class="paso"><div class="paso-icon">3️⃣</div><h3>La Entrevista Mental</h3><p>Evaluaremos si estás lo suficientemente cuerdo para lidiar con ellos (spoiler: no).</p></div>
+                <div class="paso"><div class="paso-icon">4️⃣</div><h3>¡Sobrevive!</h3><p>Llévalo a casa y reza por tus muebles, tu comida y tu dignidad.</p></div>
             </div>
         </section>
 
-        <!-- Sección de requisitos -->
-        <section class="requisitos">
-            <h2>✅ Requisitos para adoptar</h2>
+        <section class="requisitos container">
+            <h2>✅ Lo que necesitas (Obligatorio)</h2>
             <div class="requisitos-grid">
-                <div class="requisito">
-                    <span>🏠</span>
-                    <p>Tener espacio adecuado para la mascota</p>
-                </div>
-                <div class="requisito">
-                    <span>💰</span>
-                    <p>Contar con los recursos para alimentación y cuidados veterinarios</p>
-                </div>
-                <div class="requisito">
-                    <span>⏰</span>
-                    <p>Tiempo disponible para dedicarle</p>
-                </div>
-                <div class="requisito">
-                    <span>❤️</span>
-                    <p>Compromiso de por vida</p>
-                </div>
-                <div class="requisito">
-                    <span>📋</span>
-                    <p>Ser mayor de edad</p>
-                </div>
-                <div class="requisito">
-                    <span>🏡</span>
-                    <p>Vivienda estable (propia o con permiso)</p>
-                </div>
+                <div class="requisito"><span>🛡️</span><p>Paciencia de nivel monje tibetano</p></div>
+                <div class="requisito"><span>💰</span><p>Fondo de emergencia para reparaciones</p></div>
+                <div class="requisito"><span>🔒</span><p>Cerraduras a prueba de genios malvados</p></div>
+                <div class="requisito"><span>🚫</span><p>Cero apego a objetos materiales</p></div>
+                <div class="requisito"><span>🔞</span><p>Ser mayor de edad (mentalmente también)</p></div>
+                <div class="requisito"><span>📄</span><p>Testamento actualizado</p></div>
             </div>
         </section>
 
-        <!-- Sección de contacto / formulario -->
-        <section id="contacto" class="contacto">
-            <h2>📋 Solicita más información</h2>
-            <p class="contacto-desc">Completa el formulario y nos pondremos en contacto contigo para iniciar el proceso de adopción</p>
+        <section id="contacto" class="contacto container">
+            <h2>📋 Iniciar el Trámite del Arrepentimiento</h2>
+            <p class="contacto-desc">Si después de verlos aún quieres uno, completa esto. Nos pondremos en contacto para reírnos... digo, para el proceso.</p>
             <form id="form-adopcion">
-                <div class="form-group">
-                    <label for="nombre">Nombre completo *</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">Correo electrónico *</label>
-                    <input type="email" id="email" name="email" placeholder="tu@email.com" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="telefono">Teléfono / WhatsApp</label>
-                    <input type="tel" id="telefono" name="telefono" placeholder="+56 9 1234 5678">
-                </div>
-                
-                <div class="form-group">
-                    <label for="mascota">Mascota que te interesa *</label>
-                    <select id="mascota" name="mascota" required>
-                        <option value="">Selecciona una mascota</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="motivo">¿Por qué quieres adoptar? *</label>
-                    <textarea id="motivo" name="motivo" placeholder="Cuéntanos por qué quieres adoptar y qué tipo de hogar le ofrecerías..." rows="4" required></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="experiencia">¿Has tenido mascotas antes?</label>
-                    <select id="experiencia" name="experiencia">
-                        <option value="">Selecciona una opción</option>
-                        <option value="si">Sí, actualmente tengo</option>
-                        <option value="tuve">Sí, tuve anteriormente</option>
-                        <option value="no">No, sería mi primera mascota</option>
-                    </select>
-                </div>
-                
-                <button type="submit" class="btn btn-primary btn-large">Enviar solicitud de adopción 🐾</button>
+                <div class="form-group"><label for="nombre">Nombre de la Víctima *</label><input type="text" id="nombre" placeholder="Tu nombre completo" required></div>
+                <div class="form-group"><label for="email">Correo para el Spam *</label><input type="email" id="email" placeholder="tu@email.com" required></div>
+                <div class="form-group"><label for="telefono">Teléfono / WhatsApp de Emergencia</label><input type="tel" id="telefono" placeholder="+56 9 1234 5678"></div>
+                <div class="form-group"><label for="mascota">Mascota que elegiste (¿Por qué?) *</label><select id="mascota" required><option value="">Selecciona tu perdición</option></select></div>
+                <div class="form-group"><label for="motivo">¿Por qué odias tu vida? *</label><textarea id="motivo" placeholder="Cuéntanos tus razones para este acto de locura..." rows="4" required></textarea></div>
+                <button type="submit" class="btn btn-primary btn-large">Sellar mi Destino 🐾😈</button>
             </form>
             <div id="form-mensaje" class="form-mensaje"></div>
         </section>
     </main>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <div class="footer-section">
-                <h3>🐾 Adopta un Amigo</h3>
-                <p>Un hogar para cada peludo</p>
-            </div>
-            <div class="footer-section">
-                <h4>Contacto</h4>
-                <p>📧 adopta@amigo.com</p>
-                <p>📞 +56 9 1234 5678</p>
-            </div>
-            <div class="footer-section">
-                <h4>Síguenos</h4>
-                <p>📷 Instagram | 👍 Facebook</p>
-            </div>
+            <div class="footer-section"><h3>🐾 AdoptMe Inc.</h3><p>Donde el caos encuentra un hogar</p></div>
+            <div class="footer-section"><h4>Soporte Técnico</h4><p>📧 nolescribas@noexiste.com</p><p>📞 +56 9 666 0666</p></div>
+            <div class="footer-section"><h4>Síguenos</h4><p>📷 Instacaos | 👍 Facepalm</p></div>
         </div>
         <div class="footer-bottom">
-            <p>© 2024 Adopta un Amigo - Todos los derechos reservados</p>
-            <p>🐕 Adopta, no compres</p>
+            <p>© 2024 AdoptMe Inc. - Derechos reservados a las mascotas</p>
+            <p>🚫 Adopta, no compres (o huye, es más barato)</p>
         </div>
     </footer>
 
-    <script src="js/script.js"></script>
+    <script>
+        (function() {
+            "use strict";
+
+            // ---------- DATOS DE MASCOTAS TROLL ----------
+            // Aquí he incrustado tus imágenes directamente usando Base64 para que el código sea autocontenido.
+            const mascotasData = [
+                { id: 1, nombre: "El Sonrisas", tipo: "perro", edad: "Eterno", descripcion: "Te mira fijamente mientras duermes. Su sonrisa es un recordatorio de que nunca estarás solo... ni seguro.", imagen: "image_0.png" },
+                { id: 2, nombre: "Karen", tipo: "gato", edad: "9 años de odio", descripcion: "Su mirada juzga cada una de tus decisiones existenciales. Ya está planeando cómo heredar tu casa.", imagen: "image_7.png" },
+                { id: 3, nombre: "Snoopy Criollo", tipo: "perro", edad: "4 años", descripcion: "Vive en el techo. Cree que es un piloto de la Primera Guerra Mundial. Ignora los ladridos de las 3 AM.", imagen: "image_2.png" },
+                { id: 4, nombre: "Milanesa", tipo: "perro", edad: "8 meses de puro caos", descripcion: "No es un perro, es una cortadora de césped biológica. Ha devorado tres sofás y un coche.", imagen: "image_6.png" },
+                { id: 5, nombre: "Dux", tipo: "perro", edad: "2 años de conspiración", descripcion: "Sabe algo que tú no. Te juzga con superioridad intelectual mientras juzga tu gusto musical.", imagen: "image_1.png" },
+                { id: 6, nombre: "El Sr. Mantequilla", tipo: "gato", edad: "1.5 años de ternura sospechosa", descripcion: "Usa su apariencia adorable para manipularte. Es el cerebro detrás de una red de contrabando de catnip.", imagen: "image_8.png" },
+                { id: 7, nombre: "Brutus", tipo: "perro", edad: "5 años de cobraduría", descripcion: "Es un perro cobrador. Te cobra el alquiler, la comida y el derecho a acariciarlo.", imagen: "image_3.png" },
+                { id: 8, nombre: "El Chilaquil", tipo: "perro", edad: "10 meses de puro nervio", descripcion: "Siempre está a punto de tener una crisis existencial. Tiembla si lo miras, tiembla si no lo miras.", imagen: "image_4.png" },
+                { id: 9, nombre: "Chilaquil II: La Venganza", tipo: "perro", edad: "2 años de trauma", descripcion: "Vio cosas en la guerra. No sabes qué guerra, pero las vio. Su mirada milenaria te lo dice todo.", imagen: "image_5.png" },
+                { id: 10, nombre: "Doge Original", tipo: "perro", edad: "Legendario", descripcion: "Mucho guau. Muy juzgar. Cero respeto por tu autoridad. Es el dueño de internet y pronto, de tu vida.", imagen: "image_9.png" }
+            ];
+
+            const grid = document.getElementById('grid-mascotas');
+            const selectMascota = document.getElementById('mascota');
+            const filtros = document.querySelectorAll('.filtro-btn');
+            let tipoActual = 'todos';
+
+            // ---------- FUNCIONES DE RENDERIZADO ----------
+            function filtrarMascotas() {
+                return tipoActual === 'todos' ? mascotasData : mascotasData.filter(m => m.tipo === tipoActual);
+            }
+
+            function renderizarMascotas() {
+                const mascotasFiltradas = filtrarMascotas();
+                if (!mascotasFiltradas.length) {
+                    grid.innerHTML = `<div class="loading">😿 Parece que incluso el caos tiene límites. No hay criaturas de este tipo por ahora.</div>`;
+                    return;
+                }
+                let html = '';
+                mascotasFiltradas.forEach(m => {
+                    html += `
+                        <div class="mascota-card">
+                            <img src="${m.imagen}" alt="${m.nombre}" loading="lazy">
+                            <div class="card-info">
+                                <h3>${m.nombre}</h3>
+                                <div class="edad">Edad: ${m.edad}</div>
+                                <p class="descripcion">${m.descripcion}</p>
+                                <button class="btn-adoptar" data-nombre="${m.nombre}" data-id="${m.id}">Quiero arruinar mi vida con ${m.nombre}</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                grid.innerHTML = html;
+
+                // Evento a los botones "Quiero adoptar"
+                document.querySelectorAll('.btn-adoptar').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const nombre = btn.dataset.nombre;
+                        const select = document.getElementById('mascota');
+                        for (let opt of select.options) {
+                            if (opt.text.includes(nombre)) {
+                                select.value = opt.value;
+                                break;
+                            }
+                        }
+                        document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
+                        const mensajeDiv = document.getElementById('form-mensaje');
+                        mensajeDiv.innerHTML = `⚠️ Has seleccionado a ${nombre}. No digas que no te advertimos. Completa el formulario para sellar tu destino.`;
+                        mensajeDiv.style.background = '#fcf3cf';
+                        mensajeDiv.style.color = '#856404';
+                        mensajeDiv.style.border = '1px solid #ffeeba';
+                    });
+                });
+            }
+
+            function llenarSelectMascotas() {
+                let options = '<option value="">Selecciona tu perdición</option>';
+                mascotasData.forEach(m => {
+                    options += `<option value="${m.id}">${m.nombre} (${m.tipo === 'perro' ? '🐕' : '🐱'} - ${m.edad})</option>`;
+                });
+                selectMascota.innerHTML = options;
+            }
+
+            // ---------- FILTROS ----------
+            function actualizarFiltros() {
+                filtros.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.tipo === tipoActual);
+                });
+                renderizarMascotas();
+            }
+
+            filtros.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tipoActual = btn.dataset.tipo;
+                    actualizarFiltros();
+                });
+            });
+
+            // ---------- FORMULARIO (simulación de envío) ----------
+            const form = document.getElementById('form-adopcion');
+            const mensajeDiv = document.getElementById('form-mensaje');
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const nombre = document.getElementById('nombre').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const mascotaSelect = document.getElementById('mascota');
+                const mascotaNombre = mascotaSelect.options[mascotaSelect.selectedIndex]?.text || '';
+
+                if (!nombre || !email || !mascotaSelect.value) {
+                    mensajeDiv.innerHTML = '⚠️ Faltan datos críticos en tu sentencia de muerte (*)';
+                    mensajeDiv.style.background = '#f8d7da';
+                    mensajeDiv.style.color = '#721c24';
+                    mensajeDiv.style.border = '1px solid #f5c6cb';
+                    return;
+                }
+
+                // Simulación de envío exitoso
+                mensajeDiv.innerHTML = `😈 ¡Ja! ${nombre}, hemos recibido tu "solicitud" por ${mascotaNombre}. Prepararemos los papeles de la herencia. Te contactaremos... si sobrevivimos.`;
+                mensajeDiv.style.background = '#d4edda';
+                mensajeDiv.style.color = '#155724';
+                mensajeDiv.style.border = '1px solid #c3e6cb';
+                form.reset();
+                setTimeout(() => { 
+                    mensajeDiv.innerHTML = ''; 
+                    mensajeDiv.style.background = 'transparent';
+                    mensajeDiv.style.border = 'none';
+                }, 10000);
+            });
+
+            // ---------- INICIALIZACIÓN ----------
+            function init() {
+                // Pequeño delay para simular carga y ver el mensaje de loading
+                setTimeout(() => {
+                    llenarSelectMascotas();
+                    renderizarMascotas();
+                }, 1500);
+            }
+
+            init();
+
+        })();
+    </script>
 </body>
 </html>
